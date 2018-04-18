@@ -11,6 +11,8 @@ import SettingsBreadcrumb from './settingsBreadcrumb';
 import SettingsHeader from './settingsHeader';
 import SettingsSearch from './settingsSearch';
 import space from '../../../styles/space';
+import Sidebar from '../../../components/sidebar';
+import withLatestContext from '../../../utils/withLatestContext';
 
 let StyledAlert = styled(Alert)`
   margin: ${space(3)} 0;
@@ -90,6 +92,8 @@ const SettingsSubheader = styled.div`
   font-size: 14px;
 `;
 
+const SidebarContainer = withLatestContext(Sidebar);
+
 class SettingsLayout extends React.Component {
   static propTypes = {
     renderNavigation: PropTypes.func,
@@ -106,6 +110,7 @@ class SettingsLayout extends React.Component {
     let childRoute = childProps.route || route || {};
     return (
       <React.Fragment>
+        <SidebarContainer />
         <SettingsHeader>
           <SettingsSubheader>
             <Container>
