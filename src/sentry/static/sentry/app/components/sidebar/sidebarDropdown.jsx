@@ -10,15 +10,15 @@ import Link from '../link';
 import SentryTypes from '../../proptypes';
 import TextOverflow from '../textOverflow';
 import withOrganizations from '../../utils/withOrganizations';
+import UserBadge from '../userBadge';
 
 const UserSummary = styled('div')`
   display: flex;
   padding: 10px 15px;
 `;
-const UserSummaryUserName = styled('div')`
-  font-weight: bold;
-  padding-left: 10px;
-  align-self: center;
+
+const UserBadgeNoOverflow = styled(UserBadge)`
+  overflow: hidden;
 `;
 
 class SidebarUserSummary extends React.Component {
@@ -31,8 +31,7 @@ class SidebarUserSummary extends React.Component {
 
     return (
       <UserSummary>
-        <Avatar user={user} size={24} />
-        <UserSummaryUserName>{user.name}</UserSummaryUserName>
+        <UserBadgeNoOverflow user={user} avatarSize={24} />
       </UserSummary>
     );
   }
@@ -57,6 +56,7 @@ const SummaryOrgDetails = styled('div')`
 `;
 const Details = styled('div')`
   padding-left: 10px;
+  overflow: hidden;
 `;
 
 class SidebarOrgSummary extends React.Component {
@@ -188,12 +188,12 @@ class SidebarDropdown extends React.Component {
                   />
                   {!collapsed &&
                     orientation !== 'top' && (
-                      <div>
+                      <NameAndOrgWrapper>
                         <DropdownOrgName>
                           {org.name} <i className="icon-arrow-down" />
                         </DropdownOrgName>
                         <DropdownUserName>{user.name}</DropdownUserName>
-                      </div>
+                      </NameAndOrgWrapper>
                     )}
                 </div>
               </SidebarDropdownActor>
@@ -261,7 +261,11 @@ const SidebarDropdownRoot = styled('div')`
   position: relative;
 `;
 
-const DropdownOrgName = styled('div')`
+// So that long org names and user names do not overflow
+const NameAndOrgWrapper = styled('div')`
+  overflow: hidden;
+`;
+const DropdownOrgName = styled(TextOverflow)`
   font-size: 16px;
   font-weight: bold;
   color: ${p => p.theme.white};
@@ -269,7 +273,7 @@ const DropdownOrgName = styled('div')`
   transition: 0.15s text-shadow linear;
 `;
 
-const DropdownUserName = styled('div')`
+const DropdownUserName = styled(TextOverflow)`
   font-size: 14px;
   line-height: 16px;
   margin-bottom: -4px;
@@ -280,9 +284,11 @@ const SidebarDropdownActor = styled('div')`
   cursor: pointer;
 
   &:hover {
+    /* stylelint-disable-next-line no-duplicate-selectors */
     ${DropdownOrgName} {
       text-shadow: 0 0 6px rgba(255, 255, 255, 0.1);
     }
+    /* stylelint-disable-next-line no-duplicate-selectors */
     ${DropdownUserName} {
       color: ${p => p.theme.gray3};
     }
@@ -346,6 +352,7 @@ const MenuItemLink = styled(({to, href, ...props}) => {
     color: ${p => p.theme.gray5};
   }
 
+  /* stylelint-disable-next-line no-duplicate-selectors */
   ${OrgSummary} {
     padding-left: 0;
     padding-right: 0;
