@@ -282,7 +282,6 @@ const DropdownOrgName = styled(TextOverflow)`
 const DropdownUserName = styled(TextOverflow)`
   font-size: 14px;
   line-height: 16px;
-  margin-bottom: -4px;
   transition: 0.15s color linear;
 `;
 
