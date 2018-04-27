@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import {withRouter} from 'react-router';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -22,6 +23,7 @@ import space from '../../styles/space';
 
 class Sidebar extends React.Component {
   static propTypes = {
+    router: PropTypes.object,
     organization: SentryTypes.Organization,
     collapsed: PropTypes.bool,
     location: PropTypes.object,
@@ -46,6 +48,12 @@ class Sidebar extends React.Component {
 
     loadIncidents();
     loadSidebarState();
+
+    // Otherwise when we change routes using collapsed sidebar, the tooltips will remain after
+    // route changes.
+    this.routerListener = this.props.router.listen(() => {
+      $('.tooltip').tooltip('hide');
+    });
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
@@ -71,6 +79,11 @@ class Sidebar extends React.Component {
     jQuery(document.body).removeClass('body-sidebar');
     this.mq.removeListener(this.handleMediaQueryChange);
     this.mq = null;
+
+    // Unlisten to router changes
+    if (this.routerListener) {
+      this.routerListener();
+    }
   }
 
   toggleSidebar = () => {
