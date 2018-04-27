@@ -219,11 +219,11 @@ class SidebarDropdown extends React.Component {
                   <SidebarMenuItem to={`/settings/${org.slug}/billing/`}>
                     {t('Usage & Billing')}
                   </SidebarMenuItem>
-                  {!config.isOnPremise ? (
-                    <SidebarMenuItem to={`/organizations/${org.slug}/support/`}>
-                      {t('Support')}
-                    </SidebarMenuItem>
-                  ) : (
+                  <SidebarMenuItem to={`/organizations/${org.slug}/support/`}>
+                    {t('Support')}
+                  </SidebarMenuItem>
+
+                  {config.isOnPremise && (
                     <SidebarMenuItem href="https://forum.sentry.io/">
                       {t('Support forum')}
                     </SidebarMenuItem>
