@@ -1,18 +1,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import styled from 'react-emotion';
+import styled, {css} from 'react-emotion';
 
 class SidebarPanel extends React.Component {
   static propTypes = {
     title: PropTypes.string,
     collapsed: PropTypes.bool,
+    orientation: PropTypes.oneOf(['top', 'left']),
     hidePanel: PropTypes.func,
   };
 
   render() {
-    let {collapsed, hidePanel, title, children} = this.props;
+    let {orientation, collapsed, hidePanel, title, children} = this.props;
     return (
-      <StyledSidebarPanel collapsed={collapsed}>
+      <StyledSidebarPanel collapsed={collapsed} orientation={orientation}>
         <SidebarPanelHeader>
           <PanelClose onClick={hidePanel}>
             <span className="icon-close" />
@@ -28,10 +29,25 @@ class SidebarPanel extends React.Component {
 
 export default SidebarPanel;
 
-const StyledSidebarPanel = styled(({collapsed, ...props}) => <div {...props} />)`
+const getPositionForOrientation = p => {
+  if (p.orientation === 'top') {
+    return css`
+      top: ${p.theme.sidebar.mobileHeight};
+      left: 0;
+      right: 0;
+    `;
+  }
+
+  return css`
+    width: ${p.theme.sidebar.panel.width};
+    top: 0;
+    left: ${p.collapsed ? p.theme.sidebar.collapsedWidth : p.theme.sidebar.expandedWidth};
+  `;
+};
+const StyledSidebarPanel = styled(({collapsed, orientation, ...props}) => (
+  <div {...props} />
+))`
   position: fixed;
-  width: ${p => p.theme.sidebar.panel.width};
-  top: 0;
   bottom: 0;
   background: ${p => p.theme.whiteDark};
   z-index: ${p => p.theme.zIndex.sidebar};
@@ -41,8 +57,7 @@ const StyledSidebarPanel = styled(({collapsed, ...props}) => <div {...props} />)
   text-align: left;
   line-height: 24px;
 
-  left: ${p =>
-    p.collapsed ? p.theme.sidebar.collapsedWidth : p.theme.sidebar.expandedWidth};
+  ${getPositionForOrientation};
 `;
 
 const SidebarPanelHeader = styled('div')`

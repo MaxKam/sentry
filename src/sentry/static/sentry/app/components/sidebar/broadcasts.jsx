@@ -137,6 +137,7 @@ const Broadcasts = createReactClass({
         {showPanel &&
           currentPanel == 'broadcasts' && (
             <SidebarPanel
+              orientation={orientation}
               collapsed={collapsed}
               title={t("What's new in Sentry")}
               hidePanel={hidePanel}

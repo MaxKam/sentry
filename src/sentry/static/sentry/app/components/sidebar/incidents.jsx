@@ -75,6 +75,7 @@ const Incidents = createReactClass({
           active &&
           status && (
             <SidebarPanel
+              orientation={orientation}
               title={t('Recent status updates')}
               hidePanel={hidePanel}
               collapsed={collapsed}
