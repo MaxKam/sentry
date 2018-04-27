@@ -169,10 +169,15 @@ class SidebarDropdown extends React.Component {
     org: SentryTypes.Organization,
     user: SentryTypes.User,
     config: SentryTypes.Config,
+    onClick: PropTypes.func,
+  };
+
+  static defaultProps = {
+    onClick: () => {},
   };
 
   render() {
-    let {org, orientation, collapsed, config, user} = this.props;
+    let {org, orientation, collapsed, config, user, onClick} = this.props;
 
     return (
       <DropdownMenu>
@@ -182,6 +187,7 @@ class SidebarDropdown extends React.Component {
               <SidebarDropdownActor {...getActorProps({isStyled: true})}>
                 <div style={{display: 'flex', alignItems: 'flex-start'}}>
                   <Avatar
+                    onClick={onClick}
                     css={{marginRight: collapsed ? 0 : 12}}
                     organization={org}
                     size={32}

@@ -158,6 +158,7 @@ class Sidebar extends React.Component {
         <SidebarSectionGroup>
           <SidebarSection>
             <SidebarDropdown
+              onClick={this.hidePanel}
               orientation={orientation}
               collapsed={collapsed}
               org={organization}
